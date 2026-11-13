@@ -1,0 +1,20 @@
+{
+  "texture_pack": {
+    "label": "Texture packs",
+    "subs": {
+      "fun": "Fun",
+      "extra_content": "Extra content",
+      "replacement": "Replacement"
+    }
+  },
+  "mod": {
+    "label": "Mods",
+    "subs": {
+      "quality_of_life": "Quality of life",
+      "expansion": "Expansion",
+      "changes": "Changes",
+      "cheats": "Cheats",
+      "port": "Port"
+    }
+  }
+}

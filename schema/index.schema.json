@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SBAModLoader mod repository index",
+  "description": "Generated from mods/*.json by scripts/build_index.py. The loader fetches this file on every load.",
+  "type": "object",
+  "required": ["schemaVersion", "mods"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "mods": { "type": "array", "items": { "$ref": "mod.schema.json" } }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "example-mod",
+  "name": "Example Mod",
+  "author": "someone",
+  "kind": "fusion",
+  "summary": "A one line summary, at most 120 characters.",
+  "description": "A longer description shown on the mod's page.",
+  "categories": ["mod/quality_of_life", "mod/changes"],
+  "version": "1.0.0",
+  "gameVersions": ["13.0.8"],
+  "size": 12345,
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "updated": "2026-01-01",
+  "source": {
+    "kind": "github",
+    "repo": "someone/example-mod",
+    "tag": "v1.0.0",
+    "asset": "ExampleMod.dll"
+  },
+  "openSource": true,
+  "license": "MIT",
+  "audited": {
+    "version": "1.0.0",
+    "date": "2026-01-02",
+    "by": "SBAModLoader team"
+  },
+  "changelog": "What changed in this version.",
+  "tags": ["example"],
+  "requires": []
+}

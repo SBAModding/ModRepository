@@ -1,0 +1,25 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1" # weekly: re-check every file against its pinned hash
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate mods and the index
+        run: python3 scripts/validate.py
+      - name: Verify downloads (changed mods on a pull request)
+        if: github.event_name == 'pull_request'
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- 'mods/*.json')
+          if [ -n "$changed" ]; then python3 scripts/verify_downloads.py $changed; else echo "no mod files changed"; fi
+      - name: Verify downloads (every mod)
+        if: github.event_name != 'pull_request'
+        run: python3 scripts/verify_downloads.py
