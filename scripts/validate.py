@@ -4,7 +4,7 @@ import json
 import sys
 
 from common import (ALLOWED_KEYS, DATE_RE, HEX64, ID_RE, INDEX, KINDS, MODS_DIR, REQUIRED_KEYS, ROOT, VERSION_RE,
-                    load_categories, load_mods)
+                    download_url, load_categories, load_mods)
 
 errors = []
 
@@ -101,6 +101,25 @@ def check_mod(path, m, valid_categories, ids):
             err(w, "audited.date must be YYYY-MM-DD")
         if not isinstance(a["by"], str) or not a["by"].strip():
             err(w, "audited.by must name the reviewer")
+
+    # Optional extra copies of the same file. Each one is hash-checked like the primary, so a mirror is trusted
+    # no more than the host it is on.
+    if "mirrors" in m:
+        mirrors = m["mirrors"]
+        if not isinstance(mirrors, list) or any(not isinstance(u, str) for u in mirrors):
+            err(w, "mirrors must be a list of URLs")
+        else:
+            usable = isinstance(s, dict) and (
+                (s.get("kind") == "github" and all(isinstance(s.get(k), str) for k in ("repo", "tag", "asset")))
+                or (s.get("kind") == "external" and isinstance(s.get("url"), str)))
+            primary = download_url(m) if usable else None
+            for u in mirrors:
+                if not u.startswith("https://"):
+                    err(w, f"mirror {u!r} must be an https url")
+                if u == primary:
+                    err(w, "a mirror cannot repeat the primary url")
+            if len(set(mirrors)) != len(mirrors):
+                err(w, "duplicate mirror")
 
     for key in ("tags", "requires"):
         if key in m and (not isinstance(m[key], list) or any(not isinstance(x, str) for x in m[key])):

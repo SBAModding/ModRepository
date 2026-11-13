@@ -14,9 +14,12 @@ Nothing in this repository is trusted because of where it is hosted. Every mod i
 3. **Open source mods** are loaded from a **GitHub release** (`openSource: true`, `source.kind: "github"`).
    Being on GitHub does not make a file trusted: the hash is still checked.
 4. **Closed source / all rights reserved mods** are loaded from an **external URL** (`openSource: false`,
-   `source.kind: "external"`): the creator's host or the project's CDN.
-5. CI downloads the files again on every pull request and every week, so a release asset or an external file that
-   changes after the audit fails verification.
+   `source.kind: "external"`): the creator's own host, or a release of the project's
+   [release repository](https://github.com/SBAModding/ReleaseRepository) for creators who allow it to host the file.
+5. A mod can list extra `mirrors` of the same file (none do yet). The loader tries the primary source first and then
+   each mirror, and accepts any copy that matches the hash, so a mirror is trusted no more than any other host.
+6. CI downloads every file, mirrors included, on every pull request and every week, so a release asset or an
+   external file that changes after the audit fails verification.
 
 ## What a mod is
 

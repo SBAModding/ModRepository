@@ -8,8 +8,9 @@ Mods are added by pull request, one file per mod: `mods/<id>.json`. Start from
 1. Publish the file.
    - **Open source:** create a GitHub release and attach the file as a release asset. Use a tag and do not edit the
      release afterwards.
-   - **Closed source or all rights reserved:** host the file at a stable `https` URL. If you cannot host it, ask
-     and the project's CDN can.
+   - **Closed source or all rights reserved:** host the file at a stable `https` URL. If you cannot host it and
+     you allow it, a maintainer can publish the audited file as a release of the
+     [release repository](https://github.com/SBAModding/ReleaseRepository) instead, and your entry points there.
 2. Get the hash and size of exactly that file:
    ```
    sha256sum ExampleMod.dll
@@ -42,6 +43,7 @@ A review covers, at least:
 - Open source mods name an open license (an SPDX identifier); closed source mods state their terms, for example
   `All rights reserved`.
 - The audited version equals the listed version.
-- The file's SHA-256 and size match what is downloaded.
+- The file's SHA-256 and size match what is downloaded, for the primary URL and for every mirror.
+- Mirrors are `https` URLs and do not repeat the primary one.
 - Every `requires` entry is a mod in this repository.
 - `index.json` is regenerated.

@@ -55,6 +55,7 @@
     },
     "changelog": { "type": "string" },
     "tags": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" } },
+    "mirrors": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^https://[^\\s]+$" }, "description": "Optional extra https copies of the same file. The loader tries the primary source first, then these, and accepts any copy that matches sha256 and size." },
     "requires": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" }, "description": "Ids of other mods in this repository." }
   }
 }

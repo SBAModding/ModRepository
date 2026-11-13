@@ -12,7 +12,8 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 VERSION_RE = re.compile(r"^[0-9]+(\.[0-9]+){1,3}([-+][0-9A-Za-z.-]+)?$")
 KINDS = ("fusion", "native", "sbapack")
 ALLOWED_KEYS = {"id", "name", "author", "kind", "summary", "description", "categories", "version", "gameVersions",
-                "size", "sha256", "updated", "source", "openSource", "license", "audited", "changelog", "tags", "requires"}
+                "size", "sha256", "updated", "source", "openSource", "license", "audited", "changelog", "tags", "requires",
+                "mirrors"}
 REQUIRED_KEYS = ["id", "name", "author", "kind", "summary", "description", "categories", "version", "gameVersions",
                  "size", "sha256", "updated", "source", "openSource", "license", "audited"]
 
@@ -27,6 +28,11 @@ def load_mods():
     for path in sorted(MODS_DIR.glob("*.json")):
         mods.append((path, json.loads(path.read_text())))
     return mods
+
+
+def download_urls(mod):
+    """The primary URL followed by any mirrors. Every one must serve exactly the pinned file."""
+    return [download_url(mod)] + list(mod.get("mirrors", []))
 
 
 def download_url(mod):

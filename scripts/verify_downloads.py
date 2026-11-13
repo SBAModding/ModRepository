@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Downloads every mod's file and checks it against the hash and size in the repository.
+"""Downloads every mod's file (and every mirror) and checks it against the hash and size in the repository.
 
     python3 scripts/verify_downloads.py                  # every mod
     python3 scripts/verify_downloads.py mods/a.json ...  # just these
@@ -14,7 +14,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from common import download_url, load_mods
+from common import download_urls, load_mods
 
 MAX_BYTES = 1024 * 1024 * 1024
 
@@ -43,18 +43,18 @@ def main(argv):
     failed = 0
     for path in paths:
         m = json.loads(path.read_text())
-        url = download_url(m)
-        try:
-            sha, size = fetch(url)
-        except Exception as e:  # noqa: BLE001 - report every failure and keep going
-            print(f"FAIL {m['id']}: could not download {url}: {e}")
-            failed += 1
-            continue
-        if sha != m["sha256"] or size != m["size"]:
-            print(f"FAIL {m['id']}: {url} has sha256 {sha} and {size} bytes, the repository says {m['sha256']} and {m['size']}")
-            failed += 1
-        else:
-            print(f"ok   {m['id']} {m['version']}")
+        for url in download_urls(m):
+            try:
+                sha, size = fetch(url)
+            except Exception as e:  # noqa: BLE001 - report every failure and keep going
+                print(f"FAIL {m['id']}: could not download {url}: {e}")
+                failed += 1
+                continue
+            if sha != m["sha256"] or size != m["size"]:
+                print(f"FAIL {m['id']}: {url} has sha256 {sha} and {size} bytes, the repository says {m['sha256']} and {m['size']}")
+                failed += 1
+            else:
+                print(f"ok   {m['id']} {m['version']} {url}")
     if failed:
         print(f"{failed} mod(s) failed verification")
         sys.exit(1)
