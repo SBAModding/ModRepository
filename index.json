@@ -41,37 +41,38 @@
       "name": "SegualSBA Client",
       "author": "Segually",
       "kind": "sbapack",
-      "summary": "A mod menu opened from a draggable bird: custom server, custom nickname, and unlock toggles.",
-      "description": "SegualSBA Client adds a draggable bird over the game that opens a small mod menu. It has a custom server toggle that connects the game's online features to a self-hosted Photon server instead of Photon Cloud, a custom nickname, a toggle that unlocks all cosmetics and emotes (developer-only cosmetics stay locked), and a toggle that unlocks all bears and gold times. The unlock toggles only change what the game shows and never write to your save, so turning one off puts everything back. This is an SBA pack with native code. It works best with SBAModLoader 0.0.1c or newer.",
+      "summary": "A mod menu opened from a draggable bird: custom server, nickname, lobby size, and unlock toggles.",
+      "description": "SegualSBA Client adds a draggable bird over the game that opens a small mod menu. It has a custom server toggle that connects the game's online features to a self-hosted Photon server instead of Photon Cloud, a custom nickname, a toggle that unlocks all cosmetics and emotes (developer-only cosmetics stay locked), and a toggle that unlocks all bears and gold times, and a slider for the maximum number of players in a lobby (4 like the real game by default, up to 99, or Infinite). The unlock toggles only change what the game shows and never write to your save, so turning one off puts everything back. This is an SBA pack with native code. It works best with SBAModLoader 0.0.1c or newer.",
       "categories": [
         "mod/cheats",
         "mod/changes"
       ],
-      "version": "1.0.0",
+      "version": "1.0.1",
       "gameVersions": [
         "13.0.8"
       ],
-      "size": 229512,
-      "sha256": "911c68493e8d94af10afb62a674fb86cf35e42d5bc874aded99f3a93412ba85c",
+      "size": 231125,
+      "sha256": "03cbd8015707fa327661131dd138bd30c99656e0ff8238432843defa1eaabd33",
       "updated": "2026-11-14",
       "source": {
         "kind": "external",
-        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/segualsba-client-1.0.0/SegualSBAClient.sbapack"
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/segualsba-client-1.0.1/SegualSBAClient.sbapack"
       },
       "openSource": false,
       "license": "All rights reserved",
       "audited": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "date": "2026-11-14",
         "by": "SBAModLoader team"
       },
-      "changelog": "First release for SBAModLoader.",
+      "changelog": "Adds a Maximum lobby players slider: 1 to 99, or Infinite (1000). The default stays at 4.",
       "tags": [
         "client",
         "menu",
         "nickname",
         "unlock",
-        "multiplayer"
+        "multiplayer",
+        "lobby"
       ],
       "requires": []
     },
