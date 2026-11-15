@@ -2,6 +2,41 @@
   "schemaVersion": 1,
   "mods": [
     {
+      "id": "always-skip-cutscenes",
+      "name": "Always Skip Cutscenes",
+      "author": "Segually",
+      "kind": "sbapack",
+      "summary": "skip cutscenes despite not speedrunning",
+      "description": "skip cutscenes despite not speedrunning",
+      "categories": [
+        "mod/quality_of_life"
+      ],
+      "version": "1.0.0",
+      "gameVersions": [
+        "13.0.8"
+      ],
+      "size": 79337,
+      "sha256": "b37786a5bb1132a06e077e09fad1149f5a0689650b3c1e1b8d448be6420e0615",
+      "updated": "2026-11-15",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/always-skip-cutscenes-1.0.0/AlwaysSkipCutscenes.sbapack"
+      },
+      "openSource": false,
+      "license": "No License",
+      "audited": {
+        "version": "1.0.0",
+        "date": "2026-11-15",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "First release.",
+      "tags": [
+        "cutscenes",
+        "skip"
+      ],
+      "requires": []
+    },
+    {
       "id": "hive-reborn",
       "name": "Hive Reborn",
       "author": "anima",
