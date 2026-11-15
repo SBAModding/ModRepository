@@ -31,5 +31,8 @@
     "cutscenes",
     "skip"
   ],
-  "requires": []
+  "requires": [],
+  "contains": [
+    "native"
+  ]
 }

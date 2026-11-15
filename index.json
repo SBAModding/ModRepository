@@ -34,7 +34,10 @@
         "cutscenes",
         "skip"
       ],
-      "requires": []
+      "requires": [],
+      "contains": [
+        "native"
+      ]
     },
     {
       "id": "hive-reborn",
@@ -88,13 +91,19 @@
             "date": "2026-11-14",
             "by": "SBAModLoader team"
           },
-          "changelog": "First release for SBAModLoader."
+          "changelog": "First release for SBAModLoader.",
+          "contains": [
+            "assets"
+          ]
         }
       ],
       "icon": "images/hive-reborn/icon.png",
       "screenshots": [
         "images/hive-reborn/1.jpg",
         "images/hive-reborn/2.jpg"
+      ],
+      "contains": [
+        "assets"
       ]
     },
     {
@@ -154,13 +163,19 @@
             "date": "2026-11-14",
             "by": "SBAModLoader team"
           },
-          "changelog": "First release for SBAModLoader."
+          "changelog": "First release for SBAModLoader.",
+          "contains": [
+            "native"
+          ]
         }
       ],
       "icon": "images/segualsba-client/icon.png",
       "screenshots": [
         "images/segualsba-client/1.jpg",
         "images/segualsba-client/2.jpg"
+      ],
+      "contains": [
+        "native"
       ]
     },
     {
@@ -202,6 +217,11 @@
       "screenshots": [
         "images/super-cars-adventure/1.jpg",
         "images/super-cars-adventure/2.jpg"
+      ],
+      "contains": [
+        "assets",
+        "native",
+        "java"
       ]
     }
   ]

@@ -55,12 +55,18 @@
         "date": "2026-11-14",
         "by": "SBAModLoader team"
       },
-      "changelog": "First release for SBAModLoader."
+      "changelog": "First release for SBAModLoader.",
+      "contains": [
+        "native"
+      ]
     }
   ],
   "icon": "images/segualsba-client/icon.png",
   "screenshots": [
     "images/segualsba-client/1.jpg",
     "images/segualsba-client/2.jpg"
+  ],
+  "contains": [
+    "native"
   ]
 }

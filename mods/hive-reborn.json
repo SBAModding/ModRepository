@@ -50,12 +50,18 @@
         "date": "2026-11-14",
         "by": "SBAModLoader team"
       },
-      "changelog": "First release for SBAModLoader."
+      "changelog": "First release for SBAModLoader.",
+      "contains": [
+        "assets"
+      ]
     }
   ],
   "icon": "images/hive-reborn/icon.png",
   "screenshots": [
     "images/hive-reborn/1.jpg",
     "images/hive-reborn/2.jpg"
+  ],
+  "contains": [
+    "assets"
   ]
 }

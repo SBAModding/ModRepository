@@ -37,5 +37,10 @@
   "screenshots": [
     "images/super-cars-adventure/1.jpg",
     "images/super-cars-adventure/2.jpg"
+  ],
+  "contains": [
+    "assets",
+    "native",
+    "java"
   ]
 }
