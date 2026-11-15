@@ -13,9 +13,26 @@ VERSION_RE = re.compile(r"^[0-9]+(\.[0-9]+){1,3}([-+][0-9A-Za-z.-]+)?$")
 KINDS = ("fusion", "native", "sbapack")
 ALLOWED_KEYS = {"id", "name", "author", "kind", "summary", "description", "categories", "version", "gameVersions",
                 "size", "sha256", "updated", "source", "openSource", "license", "audited", "changelog", "tags", "requires",
-                "mirrors"}
+                "mirrors", "dependencies", "previousVersions", "icon", "screenshots"}
 REQUIRED_KEYS = ["id", "name", "author", "kind", "summary", "description", "categories", "version", "gameVersions",
                  "size", "sha256", "updated", "source", "openSource", "license", "audited"]
+
+# One release of a mod. The top level of a mod file is its newest release; `previousVersions` holds the older ones.
+RELEASE_REQUIRED = ["version", "gameVersions", "size", "sha256", "updated", "source", "audited"]
+RELEASE_OPTIONAL = ["mirrors", "changelog", "dependencies"]
+IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp")
+MAX_IMAGE_BYTES = 1024 * 1024
+MAX_SCREENSHOTS = 8
+_VERSION_PARTS = re.compile(r"^([0-9]+(?:\.[0-9]+)*)(?:([-+])(.*))?$")
+
+
+def version_key(version):
+    """Sort key for a VERSION_RE version: numbers first, and 1.2.0-beta sorts before 1.2.0."""
+    m = _VERSION_PARTS.match(version)
+    nums = [int(n) for n in m.group(1).split(".")]
+    nums += [0] * (4 - len(nums))
+    prerelease = m.group(2) == "-"
+    return (tuple(nums), 0 if prerelease else 1, m.group(3) or "")
 
 
 def load_categories():

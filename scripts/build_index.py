@@ -8,6 +8,10 @@ from common import INDEX, load_mods
 def build():
     mods = [m for _, m in load_mods()]
     mods.sort(key=lambda m: m["id"])
+    for m in mods:
+        # Loaders before 0.0.3 only know `requires`, a plain list of ids. Keep it in step with `dependencies`.
+        if "dependencies" in m:
+            m["requires"] = [d["id"] for d in m["dependencies"]]
     return {"schemaVersion": 1, "mods": mods}
 
 

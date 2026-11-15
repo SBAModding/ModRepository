@@ -26,6 +26,7 @@
   },
   "changelog": "What changed in this version.",
   "tags": ["example"],
-  "requires": [],
-  "mirrors": []
+  "dependencies": [],
+  "mirrors": [],
+  "previousVersions": []
 }

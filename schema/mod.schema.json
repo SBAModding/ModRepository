@@ -56,6 +56,44 @@
     "changelog": { "type": "string" },
     "tags": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" } },
     "mirrors": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^https://[^\\s]+$" }, "description": "Optional extra https copies of the same file. The loader tries the primary source first, then these, and accepts any copy that matches sha256 and size." },
-    "requires": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" }, "description": "Ids of other mods in this repository." }
+    "requires": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" }, "description": "Ids of other mods in this repository. The ids-only form that loaders before 0.0.3 read; generated into index.json from dependencies." },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+          "min": { "$ref": "#/properties/version", "description": "Oldest version of that mod this release works with (inclusive)." },
+          "max": { "$ref": "#/properties/version", "description": "Newest version of that mod this release works with (inclusive)." }
+        }
+      },
+      "description": "Mods this release needs, with the versions of them it works with. The loader installs them too."
+    },
+    "previousVersions": {
+      "type": "array",
+      "description": "Older releases, newest first. The top level of the file is the newest release.",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["version", "gameVersions", "size", "sha256", "updated", "source", "audited"],
+        "properties": {
+          "version": { "$ref": "#/properties/version" },
+          "gameVersions": { "$ref": "#/properties/gameVersions" },
+          "size": { "$ref": "#/properties/size" },
+          "sha256": { "$ref": "#/properties/sha256" },
+          "updated": { "$ref": "#/properties/updated" },
+          "source": { "$ref": "#/properties/source" },
+          "audited": { "$ref": "#/properties/audited" },
+          "changelog": { "$ref": "#/properties/changelog" },
+          "mirrors": { "$ref": "#/properties/mirrors" },
+          "dependencies": { "$ref": "#/properties/dependencies" }
+        }
+      }
+    },
+    "icon": { "type": "string", "pattern": "^images/[a-z0-9][a-z0-9-]{1,63}/[A-Za-z0-9_.-]+\\.(png|jpg|jpeg|webp)$", "description": "Square icon, a file in this repository under images/<id>/ (1 MB at most)." },
+    "screenshots": {
+      "type": "array", "uniqueItems": true, "maxItems": 8,
+      "items": { "type": "string", "pattern": "^images/[a-z0-9][a-z0-9-]{1,63}/[A-Za-z0-9_.-]+\\.(png|jpg|jpeg|webp)$" },
+      "description": "Screenshots, files in this repository under images/<id>/ (1 MB each at most)."
+    }
   }
 }

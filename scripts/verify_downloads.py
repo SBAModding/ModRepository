@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """Downloads every mod's file (and every mirror) and checks it against the hash and size in the repository.
 
-    python3 scripts/verify_downloads.py                  # every mod
+    python3 scripts/verify_downloads.py                  # the newest release of every mod
     python3 scripts/verify_downloads.py mods/a.json ...  # just these
+    python3 scripts/verify_downloads.py --all ...        # also every older release in previousVersions
+
+Older releases can be hundreds of megabytes each, so the weekly run checks only the newest ones; a pull request
+that changes a mod file checks all of that mod's releases with --all.
 
 This is the independent check that a release asset or an external file has not been replaced after the audit.
 Set MODREPO_ALLOW_LOCAL=1 to also accept http://127.0.0.1 URLs (for testing the script itself).
@@ -39,22 +43,26 @@ def fetch(url):
 
 
 def main(argv):
-    paths = [Path(a) for a in argv] or [p for p, _ in load_mods()]
+    every_release = "--all" in argv
+    paths = [Path(a) for a in argv if a != "--all"] or [p for p, _ in load_mods()]
     failed = 0
     for path in paths:
         m = json.loads(path.read_text())
-        for url in download_urls(m):
-            try:
-                sha, size = fetch(url)
-            except Exception as e:  # noqa: BLE001 - report every failure and keep going
-                print(f"FAIL {m['id']}: could not download {url}: {e}")
-                failed += 1
-                continue
-            if sha != m["sha256"] or size != m["size"]:
-                print(f"FAIL {m['id']}: {url} has sha256 {sha} and {size} bytes, the repository says {m['sha256']} and {m['size']}")
-                failed += 1
-            else:
-                print(f"ok   {m['id']} {m['version']} {url}")
+        releases = [m] + (m.get("previousVersions", []) if every_release else [])
+        for rel in releases:
+            for url in download_urls(rel):
+                try:
+                    sha, size = fetch(url)
+                except Exception as e:  # noqa: BLE001 - report every failure and keep going
+                    print(f"FAIL {m['id']} {rel['version']}: could not download {url}: {e}")
+                    failed += 1
+                    continue
+                if sha != rel["sha256"] or size != rel["size"]:
+                    print(f"FAIL {m['id']} {rel['version']}: {url} has sha256 {sha} and {size} bytes, "
+                          f"the repository says {rel['sha256']} and {rel['size']}")
+                    failed += 1
+                else:
+                    print(f"ok   {m['id']} {rel['version']} {url}")
     if failed:
         print(f"{failed} mod(s) failed verification")
         sys.exit(1)

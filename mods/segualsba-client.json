@@ -36,5 +36,26 @@
     "multiplayer",
     "lobby"
   ],
-  "requires": []
+  "requires": [],
+  "previousVersions": [
+    {
+      "version": "1.0.0",
+      "gameVersions": [
+        "13.0.8"
+      ],
+      "size": 229512,
+      "sha256": "911c68493e8d94af10afb62a674fb86cf35e42d5bc874aded99f3a93412ba85c",
+      "updated": "2026-11-14",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/segualsba-client-1.0.0/SegualSBAClient.sbapack"
+      },
+      "audited": {
+        "version": "1.0.0",
+        "date": "2026-11-14",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "First release for SBAModLoader."
+    }
+  ]
 }

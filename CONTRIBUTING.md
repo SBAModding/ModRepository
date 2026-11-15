@@ -27,8 +27,9 @@ Mods are added by pull request, one file per mod: `mods/<id>.json`. Start from
 ## The audit
 
 A reviewer fills in `audited` after reading the release, not before. The audit names one version, and `audited.version`
-must equal `version`. When you publish a new version, update `version`, `size`, `sha256` and the source, and the
-reviewer audits the new release before the entry is merged.
+must equal `version`. When you publish a new version, move the current release into `previousVersions` (keeping its
+own audit), then update `version`, `gameVersions`, `size`, `sha256` and the source at the top level. The reviewer audits
+the new release before the entry is merged. Old releases keep their own audit and stay installable.
 
 A review covers, at least:
 
@@ -45,5 +46,7 @@ A review covers, at least:
 - The audited version equals the listed version.
 - The file's SHA-256 and size match what is downloaded, for the primary URL and for every mirror.
 - Mirrors are `https` URLs and do not repeat the primary one.
-- Every `requires` entry is a mod in this repository.
+- `previousVersions` are unique, newest first, and each one is audited for its own version.
+- Every dependency (and every `requires` entry) is a mod in this repository, with no cycles and `min` not above `max`.
+- Icons and screenshots are files under `images/<id>/`: png, jpg or webp, at most 1 MB each, at most 8 screenshots.
 - `index.json` is regenerated.

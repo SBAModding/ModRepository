@@ -31,5 +31,26 @@
     "textures",
     "hive"
   ],
-  "requires": []
+  "requires": [],
+  "previousVersions": [
+    {
+      "version": "1.0.0",
+      "gameVersions": [
+        "13.0.8"
+      ],
+      "size": 355595950,
+      "sha256": "7e87ea7b29c0440efd1132b102b7a1de8d947948b58956abfff58fbe58dddf00",
+      "updated": "2026-11-14",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/hive-reborn-1.0.0/HiveReborn.sbapack"
+      },
+      "audited": {
+        "version": "1.0.0",
+        "date": "2026-11-14",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "First release for SBAModLoader."
+    }
+  ]
 }
