@@ -52,5 +52,10 @@
       },
       "changelog": "First release for SBAModLoader."
     }
+  ],
+  "icon": "images/hive-reborn/icon.png",
+  "screenshots": [
+    "images/hive-reborn/1.jpg",
+    "images/hive-reborn/2.jpg"
   ]
 }

@@ -55,6 +55,11 @@
           },
           "changelog": "First release for SBAModLoader."
         }
+      ],
+      "icon": "images/hive-reborn/icon.png",
+      "screenshots": [
+        "images/hive-reborn/1.jpg",
+        "images/hive-reborn/2.jpg"
       ]
     },
     {
@@ -116,6 +121,11 @@
           },
           "changelog": "First release for SBAModLoader."
         }
+      ],
+      "icon": "images/segualsba-client/icon.png",
+      "screenshots": [
+        "images/segualsba-client/1.jpg",
+        "images/segualsba-client/2.jpg"
       ]
     },
     {
@@ -152,7 +162,12 @@
         "city",
         "multiplayer"
       ],
-      "requires": []
+      "requires": [],
+      "icon": "images/super-cars-adventure/icon.png",
+      "screenshots": [
+        "images/super-cars-adventure/1.jpg",
+        "images/super-cars-adventure/2.jpg"
+      ]
     }
   ]
 }

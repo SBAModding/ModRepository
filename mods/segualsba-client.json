@@ -57,5 +57,10 @@
       },
       "changelog": "First release for SBAModLoader."
     }
+  ],
+  "icon": "images/segualsba-client/icon.png",
+  "screenshots": [
+    "images/segualsba-client/1.jpg",
+    "images/segualsba-client/2.jpg"
   ]
 }

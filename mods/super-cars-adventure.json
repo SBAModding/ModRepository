@@ -32,5 +32,10 @@
     "city",
     "multiplayer"
   ],
-  "requires": []
+  "requires": [],
+  "icon": "images/super-cars-adventure/icon.png",
+  "screenshots": [
+    "images/super-cars-adventure/1.jpg",
+    "images/super-cars-adventure/2.jpg"
+  ]
 }
