@@ -3,7 +3,7 @@
 import json
 import sys
 
-from common import (ALLOWED_KEYS, DATE_RE, HEX64, ID_RE, IMAGE_EXTENSIONS, INDEX, KINDS, MAX_IMAGE_BYTES,
+from common import (CONTAINS, MAX_AUDIT_NOTES, MAX_AUDIT_NOTE_LENGTH, ALLOWED_KEYS, DATE_RE, HEX64, ID_RE, IMAGE_EXTENSIONS, INDEX, KINDS, MAX_IMAGE_BYTES,
                     MAX_SCREENSHOTS, MODS_DIR, RELEASE_OPTIONAL, RELEASE_REQUIRED, REQUIRED_KEYS, ROOT, VERSION_RE,
                     download_url, load_categories, load_mods, version_key)
 
@@ -93,9 +93,16 @@ def check_release(w, rel, mod, ids):
 
     # Every release is audited before it is listed; an audit covers exactly one version.
     a = rel["audited"]
-    if not isinstance(a, dict) or set(a) != {"version", "date", "by"}:
-        err(w, "audited must have exactly version, date and by")
+    if not isinstance(a, dict) or not {"version", "date", "by"} <= set(a) or not set(a) <= {"version", "date", "by", "notes"}:
+        err(w, "audited must have version, date and by, and may have notes")
     else:
+        # Notes are the reviewer's short reasons it is safe, shown to people on the mod's page.
+        if "notes" in a:
+            n = a["notes"]
+            if not isinstance(n, list) or not 1 <= len(n) <= MAX_AUDIT_NOTES:
+                err(w, f"audited.notes must be a list of 1 to {MAX_AUDIT_NOTES} short sentences")
+            elif any(not isinstance(x, str) or not x.strip() or len(x) > MAX_AUDIT_NOTE_LENGTH for x in n):
+                err(w, f"each audited note must be text of at most {MAX_AUDIT_NOTE_LENGTH} characters")
         if a["version"] != rel["version"]:
             err(w, f"audited version {a['version']} is not the listed version {rel['version']}: the new version needs a review")
         if not isinstance(a["date"], str) or not DATE_RE.match(a["date"]):
@@ -121,6 +128,17 @@ def check_release(w, rel, mod, ids):
                     err(w, "a mirror cannot repeat the primary url")
             if len(set(mirrors)) != len(mirrors):
                 err(w, "duplicate mirror")
+
+    if "contains" in rel:
+        c = rel["contains"]
+        if not isinstance(c, list) or not c or any(x not in CONTAINS for x in c) or len(set(c)) != len(c):
+            err(w, f"contains must list what the release is made of, from {', '.join(CONTAINS)}")
+        elif mod.get("kind") == "fusion" and c != ["fusion"]:
+            err(w, "a fusion mod contains exactly fusion")
+        elif mod.get("kind") == "native" and c != ["native"]:
+            err(w, "a native mod contains exactly native")
+        elif mod.get("kind") == "sbapack" and ("fusion" in c):
+            err(w, "a pack cannot contain fusion")
 
     if "dependencies" in rel:
         check_dependencies(w, rel["dependencies"], mod["id"], ids)

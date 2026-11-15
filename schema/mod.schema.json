@@ -50,8 +50,18 @@
       "properties": {
         "version": { "type": "string", "description": "The exact version that was reviewed; must equal version." },
         "date": { "type": "string", "format": "date" },
-        "by": { "type": "string", "minLength": 1 }
+        "by": { "type": "string", "minLength": 1 },
+        "notes": {
+          "type": "array", "minItems": 1, "maxItems": 6,
+          "items": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "description": "Optional short reasons from the reviewer, shown on the mod's page as why it is safe (for example: Reads only art assets)."
+        }
       }
+    },
+    "contains": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "enum": ["assets", "native", "java", "fusion"] },
+      "description": "What this release is made of. The loader shows a pack that contains only assets as having no code. Checked against the real file by scripts/verify_downloads.py."
     },
     "changelog": { "type": "string" },
     "tags": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" } },
@@ -85,7 +95,8 @@
           "audited": { "$ref": "#/properties/audited" },
           "changelog": { "$ref": "#/properties/changelog" },
           "mirrors": { "$ref": "#/properties/mirrors" },
-          "dependencies": { "$ref": "#/properties/dependencies" }
+          "dependencies": { "$ref": "#/properties/dependencies" },
+          "contains": { "$ref": "#/properties/contains" }
         }
       }
     },

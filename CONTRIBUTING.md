@@ -38,12 +38,23 @@ A review covers, at least:
 - native code: its imports, what it hooks, and anything it loads or downloads;
 - the license, and that the stated source matches the file that was hashed.
 
+## Notes and contents shown on the mod's page
+
+The loader's page for a mod explains why it is rated safe. Two optional fields feed it:
+
+- `audited.notes`: up to 6 short sentences (120 characters each) written by the reviewer, for example "Reads only art
+  assets". Add them only for things the reviewer actually checked.
+- `contains`: what the release is made of (`assets`, `native`, `java`, `fusion`). A pack with only `assets` is shown as
+  having no code. Do not type it by hand: run `python3 scripts/verify_downloads.py --write-contains mods/<id>.json`, which
+  reads the file's table of contents, and CI checks it again.
+
 ## Rules the checks enforce
 
 - Open source mods are loaded from a GitHub release; closed source mods from an external `https` URL.
 - Open source mods name an open license (an SPDX identifier); closed source mods state their terms, for example
   `All rights reserved`.
-- The audited version equals the listed version.
+- The audited version equals the listed version, and any `audited.notes` are short sentences.
+- `contains` matches what is really in the file.
 - The file's SHA-256 and size match what is downloaded, for the primary URL and for every mirror.
 - Mirrors are `https` URLs and do not repeat the primary one.
 - `previousVersions` are unique, newest first, and each one is audited for its own version.

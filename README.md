@@ -97,3 +97,10 @@ Everything is plain Python 3 with no dependencies.
 ## Adding or updating a mod
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Download counts
+
+`stats.json` holds how many times each mod has been downloaded, added up over all of its releases. A scheduled workflow
+(`.github/workflows/stats.yml`, every 6 hours) runs `scripts/fetch_stats.py`, which reads GitHub's own download counts of
+the release assets the mods are served from, and commits the file when it changes. The loader shows the numbers; a mod
+hosted somewhere other than a GitHub release has none.
