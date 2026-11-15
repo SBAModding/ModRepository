@@ -8,31 +8,50 @@
   "categories": [
     "texture_pack/replacement"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "gameVersions": [
     "13.0.8"
   ],
-  "size": 355696382,
-  "sha256": "1db7fa3187e4d234d1c06544e473aa8da6d9a8b4c78a33d86421398581db8ebd",
+  "size": 205537268,
+  "sha256": "898fb8bdac9db51dd646b3fb0f1ed0892113adcac25af5f4a36d602c0edf7521",
   "updated": "2026-11-15",
   "source": {
     "kind": "external",
-    "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/hive-reborn-1.0.1/HiveReborn.sbapack"
+    "url": "https://github.com/anima-tronic/HiveReborn/releases/download/Texture/HiveReborn.sbapack"
   },
   "openSource": false,
   "license": "No License",
   "audited": {
-    "version": "1.0.1",
+    "version": "1.0.2",
     "date": "2026-11-15",
     "by": "SBAModLoader team"
   },
-  "changelog": "Added missing textures and adds small details",
+  "changelog": "Added missing textures and adds small details again",
   "tags": [
     "textures",
     "hive"
   ],
   "requires": [],
   "previousVersions": [
+    {
+      "version": "1.0.1",
+      "gameVersions": [
+        "13.0.8"
+      ],
+      "size": 355696382,
+      "sha256": "1db7fa3187e4d234d1c06544e473aa8da6d9a8b4c78a33d86421398581db8ebd",
+      "updated": "2026-11-15",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/hive-reborn-1.0.1/HiveReborn.sbapack"
+      },
+      "audited": {
+        "version": "1.0.1",
+        "date": "2026-11-15",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "Added missing textures and adds small details"
+    },
     {
       "version": "1.0.0",
       "gameVersions": [
