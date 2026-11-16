@@ -1,0 +1,37 @@
+{
+  "id": "zz-test-good",
+  "name": "ZZ Throwaway good",
+  "author": "Segually",
+  "kind": "sbapack",
+  "summary": "Throwaway test entry, never merged.",
+  "description": "Throwaway test entry used to test the repository checks. Never merged.",
+  "categories": [
+    "mod/quality_of_life"
+  ],
+  "version": "1.0.0",
+  "gameVersions": [
+    "13.0.8"
+  ],
+  "size": 315,
+  "sha256": "21de3865d2d4627b138ab035a12182e46b272fa30a4fc6289a0eb0a83c148a9c",
+  "updated": "2026-11-16",
+  "source": {
+    "kind": "external",
+    "url": "https://raw.githubusercontent.com/SBAModding/ModRepository/test-pr-good/test-assets/good.sbapack"
+  },
+  "openSource": false,
+  "license": "No License",
+  "audited": {
+    "version": "1.0.0",
+    "date": "2026-11-16",
+    "by": "SBAModLoader team"
+  },
+  "changelog": "Test.",
+  "tags": [
+    "test"
+  ],
+  "requires": [],
+  "contains": [
+    "assets"
+  ]
+}
