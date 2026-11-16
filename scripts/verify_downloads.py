@@ -175,13 +175,14 @@ def main(argv):
                                  f"the repository says {rel['sha256']} and {rel['size']}")
                 else:
                     print(f"ok   {m['id']} {rel['version']} {url}")
-                    if url == download_urls(rel)[0]:
-                        try:
-                            problem = (check_pack_layout(url) if m["kind"] == "sbapack" else None) or check_contains(m, rel, url)
-                        except Exception as e:  # noqa: BLE001
-                            problem = f"could not read the contents: {e}"
-                        if problem:
-                            fail(m, rel, problem)
+                # The layout and contents are about the real file, so they are reported even when the hash is wrong.
+                if url == download_urls(rel)[0]:
+                    try:
+                        problem = (check_pack_layout(url) if m["kind"] == "sbapack" else None) or check_contains(m, rel, url)
+                    except Exception as e:  # noqa: BLE001
+                        problem = f"could not read the contents: {e}"
+                    if problem:
+                        fail(m, rel, problem)
     write_summary("Downloads", rows)
     if failed:
         print(f"{failed} mod(s) failed verification")
