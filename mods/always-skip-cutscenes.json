@@ -8,25 +8,25 @@
   "categories": [
     "mod/quality_of_life"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "gameVersions": [
     "13.0.8"
   ],
-  "size": 79337,
-  "sha256": "b37786a5bb1132a06e077e09fad1149f5a0689650b3c1e1b8d448be6420e0615",
-  "updated": "2026-11-15",
+  "size": 284,
+  "sha256": "52af74e96520bd99c3d13747677cde4cc3fb3a51a3039408a23bef9fcf3f9de5",
+  "updated": "2026-11-16",
   "source": {
     "kind": "external",
-    "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/always-skip-cutscenes-1.0.0/AlwaysSkipCutscenes.sbapack"
+    "url": "https://raw.githubusercontent.com/SBAModding/ModRepository/test-pr-update/test-assets/update.sbapack"
   },
   "openSource": false,
   "license": "No License",
   "audited": {
-    "version": "1.0.0",
-    "date": "2026-11-15",
+    "version": "1.0.1",
+    "date": "2026-11-16",
     "by": "SBAModLoader team"
   },
-  "changelog": "First release.",
+  "changelog": "Throwaway update.",
   "tags": [
     "cutscenes",
     "skip"
@@ -34,5 +34,29 @@
   "requires": [],
   "contains": [
     "native"
+  ],
+  "previousVersions": [
+    {
+      "version": "1.0.0",
+      "gameVersions": [
+        "13.0.8"
+      ],
+      "size": 79337,
+      "sha256": "b37786a5bb1132a06e077e09fad1149f5a0689650b3c1e1b8d448be6420e0615",
+      "updated": "2026-11-15",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/always-skip-cutscenes-1.0.0/AlwaysSkipCutscenes.sbapack"
+      },
+      "audited": {
+        "version": "1.0.0",
+        "date": "2026-11-15",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "First release.",
+      "contains": [
+        "native"
+      ]
+    }
   ]
 }
