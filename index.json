@@ -199,52 +199,6 @@
       "contains": [
         "native"
       ]
-    },
-    {
-      "id": "super-cars-adventure",
-      "name": "Super Cars Adventure",
-      "author": "GaLazo",
-      "kind": "sbapack",
-      "summary": "Drivable cars and a whole city inside Super Bear Adventure, with party and online features.",
-      "description": "Super Cars Adventure adds a large collection of drivable cars and a city to build around them, all built into the game's own world. It includes its own HUD, sounds and music, and online party features. This is an SBA pack: it carries native code, Java code and its assets together.",
-      "categories": [
-        "mod/expansion"
-      ],
-      "version": "1.0.0",
-      "gameVersions": [
-        "13.0.8"
-      ],
-      "size": 114419900,
-      "sha256": "7686cd2c8c899e781cb6c44a69f0308b29f5ed4c8898e24d1f5a056f04f7b70c",
-      "updated": "2026-11-13",
-      "source": {
-        "kind": "external",
-        "url": "https://github.com/SBAModding/ReleaseRepository/releases/download/super-cars-adventure-1.0.0/SuperCarsAdventure.sbapack"
-      },
-      "openSource": false,
-      "license": "All rights reserved",
-      "audited": {
-        "version": "1.0.0",
-        "date": "2026-11-13",
-        "by": "SBAModLoader team"
-      },
-      "changelog": "First release for SBAModLoader.",
-      "tags": [
-        "cars",
-        "city",
-        "multiplayer"
-      ],
-      "requires": [],
-      "icon": "images/super-cars-adventure/icon.png",
-      "screenshots": [
-        "images/super-cars-adventure/1.jpg",
-        "images/super-cars-adventure/2.jpg"
-      ],
-      "contains": [
-        "assets",
-        "native",
-        "java"
-      ]
     }
   ]
 }
