@@ -17,12 +17,30 @@ Mods are added by pull request, one file per mod: `mods/<id>.json`. Start from
    stat -c %s ExampleMod.dll
    ```
 3. Fill in `mods/<id>.json`. `id` is lowercase letters, digits and `-`, and equals the file name.
-4. Rebuild the index and validate:
+4. Check your file before you open the pull request:
    ```
-   python3 scripts/build_index.py
-   python3 scripts/validate.py
+   python3 scripts/validate.py --allow-stale-index
    python3 scripts/verify_downloads.py mods/<id>.json
    ```
+   Change **only** `mods/<id>.json`. Do not edit `index.json` or `stats.json`: they are generated, and a pull request
+   that changes them fails the *Index* check. `index.json` is rebuilt automatically after the merge.
+
+### Packs (`.sbapack`)
+
+A pack is a **zip** file with the extension `.sbapack` (not 7z, RAR or tar). `sbapack.json` and the `overlay/` folder
+(or a native `.so`) sit at the **top** of the zip, not inside another folder. Zip the folder's *contents*. In 7-Zip set
+Archive format to `zip`; "Store" is fine for large art files. The *Downloads* check reads the file and says which of
+these is wrong.
+
+## What the checks tell you
+
+A pull request shows three checks, and problems are marked on the changed file:
+
+| Check | What it looks at |
+|---|---|
+| **Mod files** | the structure of `mods/*.json`, the audit rules, dependencies, images |
+| **Index** | that `index.json` and `stats.json` were not edited by hand |
+| **Downloads** | that the real file has the stated size and SHA-256, is laid out as a pack, and contains what `contains` says |
 
 ## The audit
 
@@ -56,6 +74,8 @@ The loader's page for a mod explains why it is rated safe. Two optional fields f
 - The audited version equals the listed version, and any `audited.notes` are short sentences.
 - `contains` matches what is really in the file.
 - The file's SHA-256 and size match what is downloaded, for the primary URL and for every mirror.
+- A `.sbapack` is a zip with `sbapack.json` and `overlay/` (or a native `.so`) at its top.
+- Pull requests do not change `index.json` or `stats.json`.
 - Mirrors are `https` URLs and do not repeat the primary one.
 - `previousVersions` are unique, newest first, and each one is audited for its own version.
 - Every dependency (and every `requires` entry) is a mod in this repository, with no cycles and `min` not above `max`.

@@ -1,0 +1,47 @@
+name: Rebuild index
+
+# index.json is generated from mods/*.json. After a change to the mod files lands on main, this rebuilds it
+# and commits the result, so nobody has to run build_index.py or resolve conflicts in it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "mods/**"
+      - "categories.json"
+      - "scripts/build_index.py"
+      - "scripts/common.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shares the group with the download counts job: both commit to main.
+concurrency:
+  group: repository-writes
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the mod files first
+        run: python3 scripts/validate.py --allow-stale-index
+      - name: Rebuild index.json
+        run: python3 scripts/build_index.py
+      - name: Commit when it changed
+        run: |
+          if [ -n "$(git status --porcelain index.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.json
+            git commit -m "Rebuild index.json"
+            git pull --rebase
+            git push
+            echo "### Index rebuilt and committed" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Index already up to date" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: The result is valid
+        run: python3 scripts/validate.py

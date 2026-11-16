@@ -20,7 +20,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from common import download_urls, load_mods
+from common import annotate, download_urls, load_mods, write_summary
 
 MAX_BYTES = 1024 * 1024 * 1024
 
@@ -49,8 +49,14 @@ def _get(url, start, end):
     req = urllib.request.Request(url, headers={"User-Agent": "SBAModLoader-ModRepository-verify",
                                                "Range": f"bytes={start}-{end}"})
     with urllib.request.urlopen(req, timeout=60) as resp:
-        total = int(resp.headers["Content-Range"].rsplit("/", 1)[1])
-        return resp.read(), total
+        content_range = resp.headers.get("Content-Range")
+        if content_range:
+            return resp.read(), int(content_range.rsplit("/", 1)[1])
+        # The host ignored the Range header and sends the whole file: read it, bounded, and cut out the part.
+        data = resp.read(MAX_BYTES + 1)
+        if len(data) > MAX_BYTES:
+            raise ValueError("download is larger than 1 GiB")
+        return data[start:end + 1], len(data)
 
 
 def zip_names(url):
@@ -68,6 +74,31 @@ def zip_names(url):
         names.append(cd[pos + 46:pos + 46 + n].decode("utf-8", "replace"))
         pos += 46 + n + m + k
     return names
+
+
+FORMATS = {b"7z\xbc\xaf\x27\x1c": "a 7z archive", b"Rar!": "a RAR archive", b"\x1f\x8b": "a gzip file",
+           b"BZh": "a bzip2 file", b"\xfd7zXZ": "an xz file"}
+
+
+def check_pack_layout(url):
+    """A pack must be a zip with sbapack.json and overlay/ (or a .so) at its top. Returns a problem text, or None."""
+    head, _ = _get(url, 0, 7)
+    if not head.startswith(b"PK"):
+        for magic, what in FORMATS.items():
+            if head.startswith(magic):
+                return (f"the file is {what}, not a zip. Make it with a zip tool (7-Zip: Archive format = zip) "
+                        "and keep the .sbapack extension")
+        return "the file is not a zip"
+    names = [n for n in zip_names(url) if not n.endswith("/")]
+    if "sbapack.json" not in names:
+        nested = sorted({n.split("/")[0] for n in names if n.endswith("/sbapack.json") and n.count("/") == 1})
+        if nested:
+            return (f"sbapack.json is inside the folder '{nested[0]}/'. Zip the folder's contents, so that "
+                    "sbapack.json and overlay/ are at the top of the zip")
+        return "sbapack.json is missing at the top of the zip"
+    if not any(n.startswith("overlay/") or ("/" not in n and n.endswith(".so")) or n.startswith("lib/") for n in names):
+        return "the pack has no overlay/ folder, native .so or lib/ at the top of the zip"
+    return None
 
 
 def describe(kind, names):
@@ -120,6 +151,15 @@ def main(argv):
     every_release = "--all" in argv
     paths = [Path(a) for a in argv if a != "--all"] or [p for p, _ in load_mods()]
     failed = 0
+    rows = []
+
+    def fail(m, rel, msg):
+        nonlocal failed
+        failed += 1
+        where = f"{m['id']}.json"
+        annotate("error", where, f"{m['id']} {rel['version']}: {msg}")
+        rows.append(("error", where, f"{m['id']} {rel['version']}: {msg}"))
+
     for path in paths:
         m = json.loads(path.read_text())
         releases = [m] + (m.get("previousVersions", []) if every_release else [])
@@ -128,23 +168,21 @@ def main(argv):
                 try:
                     sha, size = fetch(url)
                 except Exception as e:  # noqa: BLE001 - report every failure and keep going
-                    print(f"FAIL {m['id']} {rel['version']}: could not download {url}: {e}")
-                    failed += 1
+                    fail(m, rel, f"could not download {url}: {e}")
                     continue
                 if sha != rel["sha256"] or size != rel["size"]:
-                    print(f"FAIL {m['id']} {rel['version']}: {url} has sha256 {sha} and {size} bytes, "
-                          f"the repository says {rel['sha256']} and {rel['size']}")
-                    failed += 1
+                    fail(m, rel, f"{url} has sha256 {sha} and {size} bytes, "
+                                 f"the repository says {rel['sha256']} and {rel['size']}")
                 else:
                     print(f"ok   {m['id']} {rel['version']} {url}")
                     if url == download_urls(rel)[0]:
                         try:
-                            problem = check_contains(m, rel, url)
+                            problem = (check_pack_layout(url) if m["kind"] == "sbapack" else None) or check_contains(m, rel, url)
                         except Exception as e:  # noqa: BLE001
                             problem = f"could not read the contents: {e}"
                         if problem:
-                            print(f"FAIL {m['id']} {rel['version']}: {problem}")
-                            failed += 1
+                            fail(m, rel, problem)
+    write_summary("Downloads", rows)
     if failed:
         print(f"{failed} mod(s) failed verification")
         sys.exit(1)

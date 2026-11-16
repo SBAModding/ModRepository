@@ -1,5 +1,6 @@
 """Shared helpers for the repository tooling. Standard library only."""
 import json
+import os
 import re
 from pathlib import Path
 
@@ -61,3 +62,29 @@ def download_url(mod):
     if s["kind"] == "github":
         return f"https://github.com/{s['repo']}/releases/download/{s['tag']}/{s['asset']}"
     return s["url"]
+
+
+def annotate(level, where, msg):
+    """Prints a problem. On GitHub Actions it also becomes an annotation shown on the pull request's changed file."""
+    print(f"{level}: {where}: {msg}")
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        target = MODS_DIR / where
+        file = f"mods/{where}" if where.endswith(".json") and target.exists() else where
+        text = msg.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::{level} file={file}::{text}")
+
+
+def write_summary(title, rows):
+    """Adds a table to the job's summary page (GitHub Actions only). rows: list of (status, where, message)."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not path:
+        return
+    with open(path, "a") as f:
+        f.write(f"### {title}\n\n")
+        if not rows:
+            f.write("All checks passed.\n\n")
+            return
+        f.write("| | Where | Problem |\n|---|---|---|\n")
+        for status, where, msg in rows:
+            f.write(f"| {status} | `{where}` | {msg.replace('|', chr(92) + '|')} |\n")
+        f.write("\n")

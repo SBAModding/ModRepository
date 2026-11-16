@@ -1,25 +1,68 @@
 name: Validate
 
+# Three separate checks, so a pull request shows which one failed:
+#   Mod files  - structure, audit rules, dependencies, images
+#   Index      - the generated files were not edited by hand (pull requests only)
+#   Downloads  - size, SHA-256, pack layout and contents of the real files
+# Problems appear as annotations on the changed file, and each job has a summary.
+
 on:
   push:
   pull_request:
   schedule:
     - cron: "17 4 * * 1" # weekly: re-check every file against its pinned hash
 
+permissions:
+  contents: read
+
 jobs:
-  validate:
+  mod-files:
+    name: Mod files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # index.json is rebuilt by a workflow after a merge, so it is not required to be current here.
+      - run: python3 scripts/validate.py --allow-stale-index
+
+  index:
+    name: Index
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Validate mods and the index
-        run: python3 scripts/validate.py
-      - name: Verify downloads (changed mods on a pull request)
+      - name: Generated files must not be edited in a pull request
+        run: |
+          touched=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- index.json stats.json)
+          if [ -n "$touched" ]; then
+            for f in $touched; do
+              echo "::error file=$f::$f is generated (index.json from mods/*.json, stats.json by a scheduled job). Remove it from this pull request; it is rebuilt automatically after the merge."
+            done
+            {
+              echo "### Index"
+              echo
+              echo "This pull request changes generated files: \`$(echo $touched | tr '\n' ' ')\`."
+              echo "Undo those changes and change only \`mods/<id>.json\`. \`index.json\` is rebuilt after the merge."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "### Index" >> "$GITHUB_STEP_SUMMARY"; echo "Only mod files were changed." >> "$GITHUB_STEP_SUMMARY"
+      - name: The index still builds from the mod files
+        run: python3 scripts/build_index.py && git diff --stat
+
+  downloads:
+    name: Downloads
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Changed mods, every release (pull request)
         if: github.event_name == 'pull_request'
         run: |
           changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- 'mods/*.json')
           if [ -n "$changed" ]; then python3 scripts/verify_downloads.py --all $changed; else echo "no mod files changed"; fi
-      - name: Verify downloads (newest release of every mod)
+      - name: Newest release of every mod
         if: github.event_name != 'pull_request'
         run: python3 scripts/verify_downloads.py

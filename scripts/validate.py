@@ -5,14 +5,14 @@ import sys
 
 from common import (CONTAINS, MAX_AUDIT_NOTES, MAX_AUDIT_NOTE_LENGTH, ALLOWED_KEYS, DATE_RE, HEX64, ID_RE, IMAGE_EXTENSIONS, INDEX, KINDS, MAX_IMAGE_BYTES,
                     MAX_SCREENSHOTS, MODS_DIR, RELEASE_OPTIONAL, RELEASE_REQUIRED, REQUIRED_KEYS, ROOT, VERSION_RE,
-                    download_url, load_categories, load_mods, version_key)
+                    annotate, download_url, load_categories, load_mods, version_key, write_summary)
 
 errors = []
 
 
 def err(where, msg):
-    errors.append(f"{where}: {msg}")
-    print(f"error: {where}: {msg}")
+    errors.append(("error", where, msg))
+    annotate("error", where, msg)
 
 
 def check_source(w, s, open_source):
@@ -285,7 +285,10 @@ def check_cycles(mods):
         visit(node, [])
 
 
-def main():
+def main(argv):
+    # CI passes --allow-stale-index: a workflow rebuilds index.json after a merge, so a pull request is not
+    # failed for it. Locally the check stays strict.
+    allow_stale_index = "--allow-stale-index" in argv
     # categories.json must stay in step with the schema's pattern and the loader.
     cats = load_categories()
     mods = load_mods()
@@ -304,8 +307,12 @@ def main():
     expected = build()
     actual = json.loads(INDEX.read_text()) if INDEX.exists() else None
     if actual != expected:
-        err("index.json", "is out of date; run `python3 scripts/build_index.py` and commit the result")
+        if allow_stale_index:
+            annotate("notice", "index.json", "will be rebuilt automatically after this is merged")
+        else:
+            err("index.json", "is out of date; run `python3 scripts/build_index.py` and commit the result")
 
+    write_summary("Mod files", errors)
     if errors:
         print(f"{len(errors)} error(s)")
         sys.exit(1)
@@ -313,4 +320,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
