@@ -138,25 +138,25 @@
       "categories": [
         "texture_pack/replacement"
       ],
-      "version": "1.0.0",
+      "version": "1.0.1",
       "gameVersions": [
         "13.0.8"
       ],
-      "size": 106215844,
-      "sha256": "b2724ef80e689546bc202ace4c9b13f9fb6ee4930b6d4cde906248f3b17f211d",
+      "size": 106496300,
+      "sha256": "7cbf5b6ea00714c0ee794b87039b6198f70343f0d33012bd970860b0984b1ba9",
       "updated": "2026-11-17",
       "source": {
         "kind": "external",
-        "url": "https://github.com/anima-tronic/MossyDesert/releases/download/realese/mossydesert.sbapack"
+        "url": "https://github.com/anima-tronic/MossyDesert/releases/download/new_version/mossydesert.sbapack"
       },
       "openSource": false,
       "license": "No License",
       "audited": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "date": "2026-11-17",
         "by": "SBAModLoader team"
       },
-      "changelog": "Added missing textures and adds small details again",
+      "changelog": "An error involving the files was resolved, which had been preventing the new textures from loading.",
       "tags": [
         "textures",
         "desert"
@@ -164,6 +164,30 @@
       "requires": [],
       "contains": [
         "assets"
+      ],
+      "previousVersions": [
+        {
+          "version": "1.0.0",
+          "gameVersions": [
+            "13.0.8"
+          ],
+          "size": 106215844,
+          "sha256": "b2724ef80e689546bc202ace4c9b13f9fb6ee4930b6d4cde906248f3b17f211d",
+          "updated": "2026-11-17",
+          "source": {
+            "kind": "external",
+            "url": "https://github.com/anima-tronic/MossyDesert/releases/download/realese/mossydesert.sbapack"
+          },
+          "audited": {
+            "version": "1.0.0",
+            "date": "2026-11-17",
+            "by": "SBAModLoader team"
+          },
+          "changelog": "Added missing textures and adds small details again",
+          "contains": [
+            "assets"
+          ]
+        }
       ]
     },
     {
