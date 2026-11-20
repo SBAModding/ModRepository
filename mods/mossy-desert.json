@@ -8,25 +8,25 @@
   "categories": [
     "texture_pack/replacement"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "gameVersions": [
     "13.0.8"
   ],
   "size": 106496300,
-  "sha256": "7cbf5b6ea00714c0ee794b87039b6198f70343f0d33012bd970860b0984b1ba9",
+  "sha256": "f25dd6869e3959cd292f2629400599c3ef10f0c05c6b7cd6239ce3cf64cc0a74",
   "updated": "2026-11-17",
   "source": {
     "kind": "external",
-    "url": "https://github.com/anima-tronic/MossyDesert/releases/download/new_version/mossydesert.sbapack"
+    "url": "https://github.com/anima-tronic/MossyDesert/releases/download/1.0.2/mossydesert.sbapack"
   },
   "openSource": false,
   "license": "No License",
   "audited": {
-    "version": "1.0.1",
+    "version": "1.0.2",
     "date": "2026-11-17",
     "by": "SBAModLoader team"
   },
-  "changelog": "An error involving the files was resolved, which had been preventing the new textures from loading.",
+  "changelog": "New textures were added for hardcore mode.",
   "tags": [
     "textures",
     "desert"
@@ -36,6 +36,26 @@
     "assets"
   ],
   "previousVersions": [
+    {
+        "version": "1.0.1",
+      "gameVersions": [
+        "13.0.8"
+     ],
+      "size": 106215844,
+      "sha256": "b2724ef80e689546bc202ace4c9b13f9fb6ee4930b6d4cde906248f3b17f211d",
+      "updated": "2026-11-17",
+      "source": {
+        "kind": "external",
+        "url": "https://github.com/anima-tronic/MossyDesert/releases/download/new_version/mossydesert.sbapack"
+      },
+      "audited": {
+        "version": "1.0.0",
+        "date": "2026-11-17",
+        "by": "SBAModLoader team"
+      },
+      "changelog": "An error involving the files was resolved, which had been preventing the new textures from loading.",
+      "contains": [
+        "assets"
     {
       "version": "1.0.0",
       "gameVersions": [
